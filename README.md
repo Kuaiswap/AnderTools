@@ -1,93 +1,27 @@
-# 🛠️ AnderTools - Módulo Magisk
+# 🛠️ AnderTools
 
-<div align="center">
+[![Descargar](https://img.shields.io/badge/📥_DESCARGAR-AnderTools-brightgreen?style=for-the-badge)](https://github.com/Kuaiswap/AnderTools/raw/main/AnderTools-v1.0.zip)
 
-[![Descargar AnderTools](https://img.shields.io/badge/📥_DESCARGAR-AnderTools_v1.0-brightgreen?style=for-the-badge&logo=android)](https://github.com/Kuaiswap/AnderTools/raw/main/AnderTools-v1.0.zip)
+[![YouTube](https://img.shields.io/badge/📺_YouTube-TreAnder-red?style=for-the-badge)](https://www.youtube.com/@TreAnder)
 
-[![YouTube TreAnder](https://img.shields.io/badge/📺_YouTube-TreAnder-red?style=for-the-badge&logo=youtube)](https://www.youtube.com/@TreAnder)
+## ¿Qué es?
 
-</div>
+AnderTools es un módulo Magisk para optimizar Android.
 
----
+## Descarga
 
-## 🎯 ¿Qué es AnderTools?
+[**📦 DESCARGAR ANDERTOOLS**](https://github.com/Kuaiswap/AnderTools/raw/main/AnderTools-v1.0.zip)
 
-**AnderTools** es un módulo Magisk avanzado para optimizar Android. Mejora el rendimiento del sistema mediante automatización inteligente y gestión optimizada de memoria.
+## Instalación
 
-### 🚀 Características principales:
-- ✅ **Optimización automática** de memoria RAM
-- ✅ **Gestión inteligente** de procesos del sistema  
-- ✅ **Automatización** de tareas de mantenimiento
-- ✅ **Compatibilidad mejorada** con Android moderno
-- ✅ **Interfaz simplificada** para mejor uso
+1. Descarga el ZIP
+2. Instala en Magisk Manager  
+3. Reinicia
 
----
+## Soporte
 
-## 📥 Descarga e Instalación
-
-### 🔥 **Descarga Directa**
-
-<div align="center">
-
-## [📦 DESCARGAR ANDERTOOLS](https://github.com/Kuaiswap/AnderTools/raw/main/AnderTools-v1.0.zip)
-
-</div>
-
-### 📱 **Instalación**
-
-1. **Descarga** el archivo ZIP
-2. **Abre Magisk Manager** → Módulos  
-3. **Instalar desde almacenamiento** → Selecciona el ZIP
-4. **Reinicia** el dispositivo
+📺 [Canal YouTube - TreAnder](https://www.youtube.com/@TreAnder)
 
 ---
 
-## ⚡ Uso del Módulo
-
-Una vez instalado, utiliza estos comandos en terminal:
-
-```bash
-andertools                # Comando principal
-andertools kill [app]     # Cerrar app específica  
-andertools killall        # Cerrar todas las apps
-andertools trim           # Limpiar memoria RAM
-andertools auto           # Activar automatización
-andertools status         # Ver estado del sistema
-```
-
----
-
-## 📋 Requisitos
-
-- **Android**: 7.0+ (API 24)
-- **Magisk**: 20.4+  
-- **RAM**: 3GB mínimo
-- **Root**: Obligatorio
-
----
-
-## 🎬 Soporte
-
-<div align="center">
-
-### 📺 [Canal YouTube - TreAnder](https://www.youtube.com/@TreAnder)
-
-🎥 **Tutoriales • Soporte • Actualizaciones**
-
-</div>
-
----
-
-## ⚠️ Aviso
-
-> Este módulo modifica componentes del sistema Android.
-> Crea un backup completo antes de instalar.
-> Uso bajo tu propia responsabilidad.
-
----
-
-<div align="center">
-
-**Desarrollado por TreAnder** | [📺 YouTube](https://www.youtube.com/@TreAnder)
-
-</div>
+**Desarrollado por TreAnder**
