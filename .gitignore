@@ -1,0 +1,33 @@
+# Archivos temporales
+*.tmp
+*.temp
+*.log
+*.swp
+*.swo
+*~
+
+# Directorios de builds
+build/
+dist/
+target/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+
+# Archivos de backup
+*.bak
+*.backup
+
+# Archivos de testing
+test_output/
+test_logs/
+
+# Archivos sensibles (no incluir claves o tokens)
+.env
+secrets/
