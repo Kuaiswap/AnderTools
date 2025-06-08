@@ -6,6 +6,7 @@
 [![Android](https://img.shields.io/badge/android-8.0+-green.svg)](#requirements)
 [![Magisk](https://img.shields.io/badge/magisk-20.0+-orange.svg)](#requirements)
 [![License](https://img.shields.io/badge/license-MIT-red.svg)](LICENSE)
+[![YouTube](https://img.shields.io/badge/YouTube-TreAnder-red.svg?logo=youtube)](https://www.youtube.com/@TreAnder)
 
 ---
 
@@ -13,16 +14,18 @@
 
 <div align="center">
 
-### 📱 **¡Instala AnderTools AHORA!**
+### 📱 **¡Instala AnderTools AHORA en 3 Pasos!**
 
 [![Download AnderTools](https://img.shields.io/badge/🚀_DESCARGA_DIRECTA-AnderTools_v1.0--CORRECTED-FF6B6B?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Kuaiswap/AnderTools/raw/main/releases/AnderTools-v1.0-CORRECTED.zip)
 
 **📦 Archivo:** `AnderTools-v1.0-CORRECTED.zip` • **📏 Tamaño:** 24KB • **🔒 MD5:** `7d9c7d3e6bce1e523aa7fb5199eea153`
 
-### ⚡ **Instalación en 3 Pasos:**
-**1.** Descarga el ZIP → **2.** Instala en Magisk → **3.** Reinicia y ejecuta `andertools`
+### ⚡ **Instalación Ultra-Rápida:**
+**1.** Descarga el ZIP arriba → **2.** Abre Magisk → **3.** Instala desde almacenamiento → **LISTO!**
 
-### 📖 **¿Primera vez?** → [📚 Guía de Instalación Completa](docs/INSTALLATION_GUIDE.md)
+### 📺 **¿Quieres ver un tutorial?** → [🎥 Canal YouTube: TreAnder](https://www.youtube.com/@TreAnder)
+
+### 📖 **¿Primera vez?** → [📚 Guía Completa de Instalación](docs/INSTALLATION_GUIDE.md)
 
 </div>
 
@@ -30,15 +33,25 @@
 
 ## 🌟 **¿Qué es AnderTools?**
 
-**AnderTools** es un módulo Magisk avanzado basado en el exitoso módulo **Risk** de Zyarexx, que añade **capacidades de automatización inteligente** para la optimización de Android. 
+**AnderTools** es la **evolución del módulo Risk** con **automatización inteligente**. Mantiene todas las funciones de Risk + añade capacidades de limpieza programada automática.
+
+<div align="center">
+
+### 🎥 **TUTORIALES EN VIDEO DISPONIBLES**
+[![YouTube Channel](https://img.shields.io/badge/📺_Ver_Tutoriales-Canal_TreAnder-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@TreAnder)
+
+**🎬 Contenido disponible:** Instalación, configuración, troubleshooting y módulos modificados
+
+</div>
 
 ### ✨ **Características Principales**
 
-- 🤖 **100% Compatible con Risk**: Todas las funciones originales preservadas
-- ⚡ **Automatización Inteligente**: Limpiezas programadas automáticas
+- 🤖 **100% Compatible con Risk**: Todos los comandos originales funcionan
+- ⚡ **Automatización Inteligente**: Limpiezas programadas (hasta 2 por día)
 - 🎮 **Optimización Gaming**: Herramientas especializadas para gaming
-- 🔧 **Control Granular**: Configuración detallada de cada función
-- 📱 **Fácil de Usar**: Interfaz intuitiva en terminal
+- 🔧 **Control Total**: Configuración granular de cada función
+- 📱 **Super Fácil**: Solo ejecuta `andertools` y configura horarios
+- 🔄 **Migración Automática**: Detecta y migra configuración de Risk automáticamente
 
 ---
 
@@ -47,150 +60,183 @@
 | Característica | Risk Original | AnderTools | Mejora |
 |---------------|---------------|------------|--------|
 | **Limpieza Manual** | ✅ | ✅ | = |
-| **Tipos de Limpieza** | 3 tipos | 3 tipos + RAM Only | +25% |
-| **Automatización** | ❌ | ✅ Completa | +100% |
-| **Configuración** | Básica | Avanzada | +200% |
-| **Logging** | Mínimo | Completo | +300% |
-| **Compatibilidad** | Risk | Risk + AnderTools | +100% |
+| **Automatización** | ❌ | ✅ **Completa** | **+100%** |
+| **Tipos de Limpieza** | 3 tipos | **4 tipos** | **+25%** |
+| **Configuración** | Básica | **Avanzada** | **+200%** |
+| **Logging** | Mínimo | **Completo** | **+300%** |
+| **Compatibilidad** | Solo Risk | **Risk + AnderTools** | **+100%** |
 
 ---
 
 ## 🎯 **Funciones Disponibles**
 
-### 📱 **Funciones Manuales (Heredadas de Risk)**
+### 📱 **Funciones Manuales (100% Compatibles con Risk)**
 1. **Limpieza Segura** - Solo aplicaciones de terceros
-2. **Limpieza Agresiva** - Terceros + Google Apps
+2. **Limpieza Agresiva** - Terceros + Google Apps  
 3. **Limpieza Personalizada** - Por categorías específicas
 4. **Ajuste LMKD** - Para Android 10+ (optimización memoria)
 5. **Ajuste LMK minfree** - Para kernels compatibles
 6. **Limpieza de Cache** - Solo aplicaciones de terceros
-7. **Congelado de Apps** - Suspender aplicaciones
-8. **Descongelado de Apps** - Reactivar aplicaciones
-9. **Reducción de Resolución** - Para gaming (Android 12+)
-10. **Cambio de Resolución** - Personalizada
-11. **Compilación Monolith** - Optimización ART
+7. **Congelado/Descongelado de Apps** - Suspender/reactivar aplicaciones
+8. **Cambio de Resolución** - Para gaming (Android 12+)
+9. **Compilación Monolith** - Optimización ART
+10. **Comando `risk`** - Funciona exactamente igual que antes
 
-### 🤖 **Funciones de Automatización (Nuevas)**
-12. **Configuración de Automatización**
-    - ⏰ **Hasta 2 horarios diarios programables**
-    - 🎮 **3 tipos de limpieza automática** (Segura, Agresiva, Solo RAM)
-    - 🔋 **Daemon eficiente** en segundo plano
-    - 📅 **Horarios en formato 24h** para precisión
+### 🤖 **Funciones de Automatización (NUEVAS)**
+11. **Sistema de Automatización Completo**
+    - ⏰ **Hasta 2 horarios diarios** programables
+    - 🎮 **4 tipos de limpieza** (Segura, Agresiva, Solo RAM, Personalizada)
+    - 🔋 **Daemon ultra-eficiente** en segundo plano
+    - 📅 **Horarios precisos** en formato 24h
+    - 🔄 **Configuración persistente** entre reinicios
 
 ---
 
 ## 🔧 **Requisitos del Sistema**
 
-### **Mínimos Requeridos**
-- 📱 **Android**: 8.0+ (API 26)
-- 🔓 **Root**: Magisk 20.0+ o KernelSU
-- 💾 **Almacenamiento**: 50MB libres en `/data`
-- 🧠 **RAM**: 2GB recomendado
+### **✅ Compatible Con:**
+- 📱 **Android**: 8.0 - 14.0+ (API 26+)
+- 🔓 **Root**: Magisk 20.0+ o KernelSU (cualquier versión)
+- 💾 **Espacio**: 50MB libres en `/data`
+- 🧠 **RAM**: 2GB+ recomendado
+- 🏗️ **Arquitecturas**: ARM64, ARM, x86, x86_64
 
-### **Compatibilidad**
-- ✅ **Magisk**: 20.0 - 27.0+
-- ✅ **KernelSU**: Todas las versiones
-- ✅ **Android**: 8.0 - 14.0+
-- ✅ **Arquitecturas**: ARM64, ARM, x86, x86_64
+### **🚫 NO Compatible Con:**
+- Dispositivos sin root
+- Android 7.0 o inferior
+- Magisk inferior a v20.0
 
 ---
 
-## 📋 **Instalación Paso a Paso**
+## 📋 **Instalación SÚPER FÁCIL**
 
-### **Método 1: Magisk Manager (Recomendado)**
-1. Descarga `AnderTools-v1.0-CORRECTED.zip` desde arriba
-2. Abre **Magisk Manager**
-3. Ve a **Módulos** → **Instalar desde almacenamiento**
-4. Selecciona el archivo descargado
-5. **Reinicia** tu dispositivo
+### **🥇 Método Recomendado (2 minutos)**
 
-### **Método 2: Terminal/ADB**
-```bash
-# Descargar e instalar
-su
-wget https://github.com/Kuaiswap/AnderTools/raw/main/releases/AnderTools-v1.0-CORRECTED.zip
-magisk --install-module AnderTools-v1.0-CORRECTED.zip
-reboot
-```
+1. **📥 DESCARGA** el archivo ZIP desde el botón grande arriba
+2. **📱 ABRE** Magisk Manager en tu dispositivo
+3. **⚙️ VE** a la sección **"Módulos"**
+4. **📂 TOCA** **"Instalar desde almacenamiento"**
+5. **📁 SELECCIONA** el archivo `AnderTools-v1.0-CORRECTED.zip`
+6. **🔄 REINICIA** tu dispositivo cuando termine
+7. **✅ EJECUTA** `su` luego `andertools` - ¡YA ESTÁ!
 
-### **Verificación de Instalación**
+### **🎥 ¿Necesitas ayuda visual?**
+[![Ver Tutorial](https://img.shields.io/badge/📺_Ver_Tutorial_Completo-YouTube-red?style=for-the-badge&logo=youtube)](https://www.youtube.com/@TreAnder)
+
+### **🔍 Verificar Instalación**
 ```bash
 # Después del reinicio
 su
 andertools
-# Si ves el menú, ¡instalación exitosa!
+# Si ves el menú con opciones, ¡instalación exitosa! 🎉
 ```
 
 ---
 
-## 🚀 **Primeros Pasos**
+## 🚀 **Configuración en 1 Minuto**
 
-### **Configuración Básica**
+### **⚡ Configuración Rápida (Recomendada)**
 ```bash
 su
 andertools
-# Opción 'A' para configurar automatización
+# Presiona 'A' para menú de automatización
+# Presiona '1' para activar automatización  
+# Configura horario 1: 08:00 - Limpieza Segura
+# Configura horario 2: 20:00 - Solo RAM
+# ¡LISTO! Ya tienes optimización automática 24/7
 ```
 
-### **Configuración Recomendada**
-- **Usuarios Normales**: 08:00 (Segura) + 20:00 (Solo RAM)
-- **Gamers**: 1 hora antes de jugar (Agresiva)
-- **Ahorro de Batería**: 23:00 (Agresiva nocturna)
+### **🎮 Configuración Gaming**
+```bash
+su  
+andertools
+# Opción A → Configurar horarios
+# 1 hora antes de jugar: Limpieza Agresiva
+# Después de jugar: Limpieza Segura
+```
 
-### **Migración desde Risk**
-**AnderTools detecta automáticamente** instalaciones previas de Risk y migra:
+### **🔄 Migración desde Risk**
+**¡AUTOMÁTICA!** AnderTools detecta Risk y migra todo:
 - ✅ Lista de aplicaciones excluidas
-- ✅ Configuraciones existentes
+- ✅ Configuraciones personalizadas  
 - ✅ Logs históricos
+- ✅ **El comando `risk` sigue funcionando igual**
+
+---
+
+## 🎥 **Contenido en Video - Canal TreAnder**
+
+<div align="center">
+
+[![TreAnder YouTube](https://img.shields.io/badge/🎬_Canal_Oficial-TreAnder-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@TreAnder)
+
+</div>
+
+### 📺 **Videos Disponibles:**
+- 🎯 **Tutorial de Instalación** - Paso a paso visual
+- ⚙️ **Configuración Avanzada** - Sacar máximo provecho
+- 🔧 **Solución de Problemas** - Resolver issues comunes
+- 🎮 **Optimización Gaming** - Configuración para gaming
+- 📱 **Módulos Modificados** - Más contenido similar
+
+### 🔔 **¡Suscríbete para más contenido!**
+Tutoriales regulares sobre módulos Android, optimización y modificaciones del sistema.
 
 ---
 
 ## 🔍 **Comandos Útiles**
 
 ```bash
-# Comando principal
+# Comando principal (nuevo)
 andertools
 
-# Compatibilidad con Risk (sigue funcionando)
-risk
+# Comando Risk (funciona igual que siempre)
+risk  
 
 # Ver estado de automatización
 andertools
 # Opción A → Opción 4
 
-# Verificar logs
+# Verificar logs de automatización
 cat /sdcard/Android/AnderTools/logs/automation.log
 
-# Añadir app a exclusiones
-echo "com.mi.app" >> /sdcard/Android/AnderTools/config/excluded_apps.txt
+# Añadir app a exclusiones (ejemplo WhatsApp)
+echo "com.whatsapp" >> /sdcard/Android/AnderTools/config/excluded_apps.txt
+
+# Ver configuración actual
+ls -la /sdcard/Android/AnderTools/config/
 ```
 
 ---
 
-## 🆘 **Solución de Problemas**
+## 🆘 **Solución Rápida de Problemas**
 
-### **Problemas Comunes**
-- 🔍 **Comando no encontrado**: `export PATH="/system/bin:$PATH"`
-- 🤖 **Automatización no funciona**: Verificar configuración en menú A
-- 📱 **App se cierra**: Añadir a excluded_apps.txt
-- 🔐 **Error de permisos**: Verificar root con `su`
+### **❓ Problemas Más Comunes**
 
-### **Obtener Ayuda**
-- 📖 [Guía Completa de Instalación](docs/INSTALLATION_GUIDE.md)
-- 🔧 [Guía de Troubleshooting](docs/TROUBLESHOOTING.md)
-- 🐛 [Reportar Bug](https://github.com/Kuaiswap/AnderTools/issues/new?template=bug_report.md)
+| **Problema** | **Solución Rápida** |
+|-------------|-------------------|
+| `andertools: command not found` | `su` luego `export PATH="/system/bin:$PATH"` |
+| Automatización no funciona | Menú A → Verificar que esté activada |
+| Una app se cierra | Añadirla a `excluded_apps.txt` |
+| Error de permisos | Verificar root con `su` |
+| No ve el menú | Reinstalar módulo |
+
+### **📖 ¿Necesitas más ayuda?**
+- 🔧 [**Guía Completa de Problemas**](docs/TROUBLESHOOTING.md)
+- 📺 [**Video Tutorial**](https://www.youtube.com/@TreAnder)
+- 🐛 [**Reportar Bug**](https://github.com/Kuaiswap/AnderTools/issues/new?template=bug_report.md)
 
 ---
 
-## 📚 **Documentación y Soporte**
+## 📚 **Documentación Completa**
 
 <div align="center">
 
-| 📖 **Documentación** | 🔧 **Soporte** | 🤝 **Comunidad** |
+| 📖 **Documentación** | 🔧 **Soporte** | 🎥 **Video** |
 |:---:|:---:|:---:|
-| [📚 Centro de Docs](docs/) | [🐛 Reportar Bug](https://github.com/Kuaiswap/AnderTools/issues/new?template=bug_report.md) | [💡 Solicitar Feature](https://github.com/Kuaiswap/AnderTools/issues/new?template=feature_request.md) |
-| [🚀 Guía de Instalación](docs/INSTALLATION_GUIDE.md) | [🔧 Troubleshooting](docs/TROUBLESHOOTING.md) | [🤝 Contribuir](CONTRIBUTING.md) |
-| [📋 Docs Técnicas](docs/TECHNICAL_DOCUMENTATION.md) | [📞 Issues](https://github.com/Kuaiswap/AnderTools/issues) | [⭐ Star el Repo](https://github.com/Kuaiswap/AnderTools) |
+| [📚 Centro de Docs](docs/) | [🐛 Reportar Bug](https://github.com/Kuaiswap/AnderTools/issues/new?template=bug_report.md) | [📺 Canal YouTube](https://www.youtube.com/@TreAnder) |
+| [🚀 Guía de Instalación](docs/INSTALLATION_GUIDE.md) | [🔧 Troubleshooting](docs/TROUBLESHOOTING.md) | [🎬 Tutorial de Instalación](https://www.youtube.com/@TreAnder) |
+| [📋 Docs Técnicas](docs/TECHNICAL_DOCUMENTATION.md) | [📞 Issues](https://github.com/Kuaiswap/AnderTools/issues) | [⚙️ Configuración Avanzada](https://www.youtube.com/@TreAnder) |
 
 </div>
 
@@ -198,31 +244,36 @@ echo "com.mi.app" >> /sdcard/Android/AnderTools/config/excluded_apps.txt
 
 ## 📈 **Changelog**
 
-### **v1.0-CORRECTED** (Actual)
-- ✅ Sistema de automatización completo
-- ✅ Compatibilidad 100% con Risk
-- ✅ Interfaz mejorada con menú de automatización
-- ✅ Migración automática desde Risk
-- ✅ Logging avanzado
-- ✅ Soporte para Android 8.0-14.0+
+### **🎯 v1.0-CORRECTED** (Versión Actual)
+- ✅ **Sistema de automatización completo** con hasta 2 horarios diarios
+- ✅ **Compatibilidad 100% con Risk** - todos los comandos funcionan
+- ✅ **Interfaz mejorada** con menú de automatización (Opción A)
+- ✅ **Migración automática** desde instalaciones de Risk
+- ✅ **Logging avanzado** de todas las acciones
+- ✅ **Soporte universal** para Android 8.0-14.0+
+- ✅ **4 tipos de limpieza** (Segura, Agresiva, Solo RAM, Personalizada)
 
-### **Próximas Versiones**
+### **🔮 Próximas Versiones Planeadas**
 - 🔄 **v1.1**: Perfiles de optimización personalizables
-- 🔄 **v1.2**: Interfaz gráfica opcional
+- 🔄 **v1.2**: Interfaz gráfica opcional  
 - 🔄 **v1.3**: Integración con Tasker
+- 🔄 **v1.4**: Optimizaciones específicas por juego
 
 ---
 
 <div align="center">
 
-### 🌟 **¡Apoya el Proyecto!**
+## 🌟 **¡Apoya el Proyecto!**
 
-Si AnderTools te resulta útil, considera darle una ⭐ al repositorio
+Si AnderTools te resulta útil, **¡dale una ⭐ al repositorio!**
 
 [![GitHub stars](https://img.shields.io/github/stars/Kuaiswap/AnderTools?style=social)](https://github.com/Kuaiswap/AnderTools/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/Kuaiswap/AnderTools?style=social)](https://github.com/Kuaiswap/AnderTools/network)
 
-**Desarrollado con ❤️ para la comunidad Android**
+### 📺 **¡Sígueme en YouTube para más contenido!**
+[![Suscribirse](https://img.shields.io/badge/🔔_SUSCRIBIRSE-Canal_TreAnder-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@TreAnder)
+
+**Contenido regular:** Módulos Android, optimización, tutoriales y mucho más
 
 ---
 
@@ -231,7 +282,12 @@ Si AnderTools te resulta útil, considera darle una ⭐ al repositorio
 - 🆘 **Problemas urgentes**: [GitHub Issues](https://github.com/Kuaiswap/AnderTools/issues)
 - 💡 **Sugerencias**: [Feature Requests](https://github.com/Kuaiswap/AnderTools/issues/new?template=feature_request.md)
 - 📖 **Documentación**: [Centro de Documentación](docs/)
+- 🎥 **Tutoriales**: [Canal YouTube TreAnder](https://www.youtube.com/@TreAnder)
 - 🤝 **Contribuir**: [Guía de Contribución](CONTRIBUTING.md)
+
+---
+
+**Desarrollado con ❤️ por TreAnder para la comunidad Android**
 
 </div>
 
@@ -239,4 +295,4 @@ Si AnderTools te resulta útil, considera darle una ⭐ al repositorio
 
 **⚠️ Disclaimer:** AnderTools es software libre y gratuito. Úsalo bajo tu propia responsabilidad. Siempre haz backup de tu dispositivo antes de instalar módulos de root.
 
-**🔒 Seguridad:** Descarga siempre desde este repositorio oficial para garantizar la seguridad y autenticidad del módulo.
+**🔒 Seguridad:** Descarga **SIEMPRE** desde este repositorio oficial para garantizar seguridad y autenticidad.
