@@ -6,7 +6,7 @@ Esta carpeta contiene todas las versiones lanzadas de AnderTools listas para ins
 
 ### 🚀 **Versión v1.0-CORRECTED** (Recomendada)
 
-[![Download](https://img.shields.io/badge/🔽_DESCARGAR-v1.0--CORRECTED-success?style=for-the-badge)](AnderTools-v1.0-CORRECTED.zip)
+[![Download](https://img.shields.io/badge/🔽_DESCARGAR-v1.0--CORRECTED-success?style=for-the-badge)](https://github.com/Kuaiswap/AnderTools/raw/main/releases/AnderTools-v1.0-CORRECTED.zip)
 
 **Archivo:** `AnderTools-v1.0-CORRECTED.zip`  
 **Tamaño:** ~24KB  
@@ -29,6 +29,10 @@ Esta carpeta contiene todas las versiones lanzadas de AnderTools listas para ins
 4. **Reiniciar** dispositivo
 5. **Ejecutar** `su && andertools`
 
+## 🎥 Tutorial en Video
+
+¿Necesitas ayuda visual? Ve el tutorial completo en el [Canal de YouTube TreAnder](https://www.youtube.com/@TreAnder)
+
 ## 📋 Verificación de Integridad
 
 Para verificar que el archivo descargado no está corrupto:
@@ -44,6 +48,7 @@ md5sum AnderTools-v1.0-CORRECTED.zip
 
 - 📖 Consulta la [Guía de Instalación](../docs/INSTALLATION_GUIDE.md)
 - 🔧 Revisa [Troubleshooting](../docs/TROUBLESHOOTING.md)
+- 🎥 Ve el [Tutorial en Video](https://www.youtube.com/@TreAnder)
 - 🐛 [Reporta un problema](https://github.com/Kuaiswap/AnderTools/issues)
 
 ## 📚 Documentación Adicional
