@@ -1,8 +1,8 @@
 id=andertools
-name=AnderTools
-version=v1.0
-versionCode=1
-author=TreAnder
-description=Módulo Magisk para optimización de Android - Gestión de memoria RAM y automatización del sistema
-
-updateJson=https://raw.githubusercontent.com/Kuaiswap/AnderTools/main/update.json
+name=AnderTools - Enhanced Risk with Automation
+version=1.0-CORRECTED
+set=1.0-CORRECTED
+versionCode=100000001
+author=AnderTools Team (Based on Risk by Zyarexx)
+description=Enhanced Risk module with automation capabilities. 100% compatible with original Risk functionality plus advanced automation features. Clean RAM Cache, Stop Background Apps, Gaming Optimization with Smart Automation. Command: su -c andertools (or su -c risk for compatibility)
+updateJson=https://github.com/andertools/andertools/raw/main/update.json
