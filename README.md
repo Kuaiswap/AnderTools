@@ -2,11 +2,9 @@
 
 <div align="center">
 
-[![Descarga AnderTools](https://img.shields.io/badge/📥_DESCARGAR_MÓDULO-v1.0-brightgreen?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Kuaiswap/AnderTools/raw/main/AnderTools-v1.0.zip)
+[![Descarga AnderTools](https://img.shields.io/badge/📥_DESCARGAR_MÓDULO_ORIGINAL-v1.0-brightgreen?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Kuaiswap/AnderTools/raw/main/AnderTools-v1.0.zip)
 
 [![YouTube](https://img.shields.io/badge/📺_Canal_YouTube-TreAnder-red?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@TreAnder)
-[![Android](https://img.shields.io/badge/Android-7.0+-brightgreen?style=for-the-badge&logo=android&logoColor=white)](#)
-[![Magisk](https://img.shields.io/badge/Magisk-20.4+-blue?style=for-the-badge&logo=magisk&logoColor=white)](#)
 
 </div>
 
@@ -26,13 +24,24 @@
 
 ---
 
-## 📥 Instalación Rápida
+## 📥 Descarga Original del Módulo
 
-### 🔥 **Método Directo (3 pasos)**
+### 🔥 **¡DESCARGA SOLO EL MÓDULO ORIGINAL!**
 
-1. **📱 Descarga** → [**Clic aquí para descargar AnderTools-v1.0.zip**](https://github.com/Kuaiswap/AnderTools/raw/main/AnderTools-v1.0.zip)
+<div align="center">
 
-2. **⚙️ Instala** → Abre Magisk Manager → Módulos → Instalar desde almacenamiento → Selecciona el ZIP
+## [**📦 DESCARGAR ANDERTOOLS ORIGINAL**](https://github.com/Kuaiswap/AnderTools/raw/main/AnderTools-v1.0.zip)
+### **24 KB • Módulo limpio • Sin archivos extra**
+
+</div>
+
+⚠️ **IMPORTANTE:** Este enlace descarga **únicamente el módulo AnderTools original** (24KB). No incluye documentación adicional ni archivos del repositorio.
+
+### 🔧 **Instalación Rápida (3 pasos)**
+
+1. **📱 Descarga** → [**Módulo Original AnderTools**](https://github.com/Kuaiswap/AnderTools/raw/main/AnderTools-v1.0.zip)
+
+2. **⚙️ Instala** → Magisk Manager → Módulos → Instalar desde almacenamiento
 
 3. **🔄 Reinicia** → Reinicia tu dispositivo y ¡listo!
 
@@ -40,19 +49,13 @@
 
 ## ⚡ Funciones Principales
 
-| 🔧 **Optimización** | 📊 **Monitoreo** | 🤖 **Automatización** |
-|:---:|:---:|:---:|
-| Limpieza RAM automática | Estado del sistema | Perfiles automáticos |
-| Gestión de procesos | Logs detallados | Reglas personalizadas |
-| Optimización kernel | Estadísticas de uso | Acciones programadas |
-
-### 📋 **Comandos Principales**
+### 📋 **Comandos Básicos**
 
 ```bash
 # Herramienta principal
 andertools
 
-# Comandos básicos
+# Comandos esenciales
 andertools kill [app]     # Cerrar aplicación específica
 andertools killall        # Cerrar todas las apps
 andertools trim           # Limpiar caché RAM
@@ -64,21 +67,10 @@ andertools status         # Estado del sistema
 
 ## 📋 Requisitos del Sistema
 
-| Requisito | Versión Mínima | Recomendado |
-|-----------|----------------|-------------|
-| **Android** | 7.0+ (API 24) | 10.0+ |
-| **Magisk** | 20.4+ | 25.0+ |
-| **RAM** | 3GB | 4GB+ |
-| **Root** | ✅ Requerido | ✅ Requerido |
-
----
-
-## 🛡️ Características de Seguridad
-
-- 🔒 **Lista de exclusión** configurable para proteger apps críticas
-- 🛡️ **Modo seguro** para prevenir problemas del sistema
-- 📝 **Logs detallados** para diagnóstico y soporte
-- ⚡ **Compatibilidad total** con Shizuku para funciones avanzadas
+- **Android**: 7.0+ (API 24)
+- **Magisk**: 20.4+
+- **RAM**: 3GB mínimo
+- **Root**: ✅ Requerido
 
 ---
 
@@ -94,16 +86,6 @@ andertools status         # Estado del sistema
 
 ---
 
-## 🔧 Configuración Avanzada
-
-El módulo incluye configuraciones optimizadas por defecto. Para personalización avanzada:
-
-- 📁 **Configuración**: `/sdcard/Android/AnderTools/config/`
-- 📝 **Logs**: `/sdcard/Android/AnderTools/logs/`
-- ⚙️ **Perfiles**: `/data/adb/modules/andertools/config/profiles/`
-
----
-
 ## ⚠️ Importante
 
 > **🚨 Este módulo modifica componentes del sistema**
@@ -114,18 +96,12 @@ El módulo incluye configuraciones optimizadas por defecto. Para personalizació
 
 ---
 
-## 📄 Licencia
-
-Este proyecto está bajo la **Licencia BSD 2-Clause**. Ver [LICENSE](LICENSE) para más detalles.
-
----
-
 <div align="center">
 
 ### 🎯 **¿Listo para optimizar tu Android?**
 
-[![Descarga Ahora](https://img.shields.io/badge/📥_DESCARGAR_AHORA-AnderTools_v1.0-success?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Kuaiswap/AnderTools/raw/main/AnderTools-v1.0.zip)
+[![Descarga Ahora](https://img.shields.io/badge/📥_DESCARGAR_MÓDULO_ORIGINAL-AnderTools_v1.0-success?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Kuaiswap/AnderTools/raw/main/AnderTools-v1.0.zip)
 
-**Desarrollado por TreAnder** | [📺 YouTube](https://www.youtube.com/@TreAnder) | [⭐ GitHub](https://github.com/Kuaiswap/AnderTools)
+**Desarrollado por TreAnder** | [📺 YouTube](https://www.youtube.com/@TreAnder)
 
 </div>
