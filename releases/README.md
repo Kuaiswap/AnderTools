@@ -4,14 +4,14 @@ Esta carpeta contiene todas las versiones lanzadas de AnderTools listas para ins
 
 ## 📥 Descarga Actual
 
-### 🚀 **Versión v1.0-CORRECTED** (Recomendada)
+### 🚀 **Versión v1.0** (Recomendada)
 
-[![Download](https://img.shields.io/badge/🔽_DESCARGAR-v1.0--CORRECTED-success?style=for-the-badge)](https://github.com/Kuaiswap/AnderTools/raw/main/releases/AnderTools-v1.0-CORRECTED.zip)
+[![Download](https://img.shields.io/badge/🔽_DESCARGAR-v1.0-success?style=for-the-badge)](https://github.com/Kuaiswap/AnderTools/raw/main/releases/AnderTools-v1.0.zip)
 
-**Archivo:** `AnderTools-v1.0-CORRECTED.zip`  
+**Archivo:** `AnderTools-v1.0.zip`  
 **Tamaño:** ~24KB  
 **Fecha:** 08/06/2025  
-**MD5:** `7d9c7d3e6bce1e523aa7fb5199eea153`
+**Estado:** ✅ Verificado y funcional
 
 ### ✨ Características de esta versión:
 - ✅ **100% Compatible** con Risk original
@@ -32,17 +32,6 @@ Esta carpeta contiene todas las versiones lanzadas de AnderTools listas para ins
 ## 🎥 Tutorial en Video
 
 ¿Necesitas ayuda visual? Ve el tutorial completo en el [Canal de YouTube TreAnder](https://www.youtube.com/@TreAnder)
-
-## 📋 Verificación de Integridad
-
-Para verificar que el archivo descargado no está corrupto:
-
-```bash
-# En Linux/macOS/Termux
-md5sum AnderTools-v1.0-CORRECTED.zip
-
-# Debe coincidir con: 7d9c7d3e6bce1e523aa7fb5199eea153
-```
 
 ## 🆘 ¿Problemas con la Descarga?
 
