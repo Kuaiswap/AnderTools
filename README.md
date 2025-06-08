@@ -2,9 +2,11 @@
 
 <div align="center">
 
-[![Descarga AnderTools](https://img.shields.io/badge/📥_DESCARGAR_MÓDULO_ORIGINAL-v1.0-brightgreen?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Kuaiswap/AnderTools/raw/main/AnderTools-v1.0.zip)
+![AnderTools Banner](https://img.shields.io/badge/AnderTools-v1.0-blue?style=for-the-badge&logo=android)
 
-[![YouTube](https://img.shields.io/badge/📺_Canal_YouTube-TreAnder-red?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@TreAnder)
+[![Descargar Módulo](https://img.shields.io/badge/📥_DESCARGAR_MÓDULO-Clic_Aquí-brightgreen?style=for-the-badge&logo=download)](https://github.com/Kuaiswap/AnderTools/raw/main/AnderTools-v1.0.zip)
+
+[![Canal YouTube](https://img.shields.io/badge/📺_YouTube-TreAnder-red?style=for-the-badge&logo=youtube)](https://www.youtube.com/@TreAnder)
 
 </div>
 
@@ -12,65 +14,72 @@
 
 ## 🎯 ¿Qué es AnderTools?
 
-**AnderTools** es un módulo Magisk avanzado diseñado para **optimizar el rendimiento** de tu dispositivo Android. Basado en el reconocido módulo Risk, AnderTools ofrece mejoras significativas y nuevas funcionalidades de automatización.
+**AnderTools** es un módulo Magisk avanzado que optimiza el rendimiento de dispositivos Android. Basado en el exitoso módulo Risk, AnderTools añade automatización inteligente y gestión mejorada de memoria.
 
-### 🚀 Ventajas sobre el módulo base (Risk):
-- ✅ **Automatización inteligente** de procesos del sistema
-- ✅ **Gestión avanzada de memoria** RAM optimizada  
-- ✅ **Compatibilidad mejorada** con dispositivos modernos
-- ✅ **Interfaz simplificada** para mejor experiencia de usuario
-- ✅ **Monitoreo en tiempo real** del rendimiento del sistema
-- ✅ **Perfiles de configuración** personalizables
+### 🚀 Ventajas sobre Risk original:
+- ✅ **Automatización inteligente** de procesos
+- ✅ **Gestión optimizada de RAM** 
+- ✅ **Compatibilidad mejorada** con Android moderno
+- ✅ **Interfaz simplificada** y más intuitiva
+- ✅ **Monitoreo en tiempo real**
+- ✅ **Configuraciones personalizables**
 
 ---
 
-## 📥 Descarga Original del Módulo
+## 📥 Descarga e Instalación
 
-### 🔥 **¡DESCARGA SOLO EL MÓDULO ORIGINAL!**
+### 🔥 **Descarga Directa**
 
 <div align="center">
 
-## [**📦 DESCARGAR ANDERTOOLS ORIGINAL**](https://github.com/Kuaiswap/AnderTools/raw/main/AnderTools-v1.0.zip)
-### **24 KB • Módulo limpio • Sin archivos extra**
+## [📦 DESCARGAR ANDERTOOLS](https://github.com/Kuaiswap/AnderTools/raw/main/AnderTools-v1.0.zip)
+
+**Solo 24KB • Módulo completo • Listo para Magisk**
 
 </div>
 
-⚠️ **IMPORTANTE:** Este enlace descarga **únicamente el módulo AnderTools original** (24KB). No incluye documentación adicional ni archivos del repositorio.
+### 📱 **Instalación (3 pasos)**
 
-### 🔧 **Instalación Rápida (3 pasos)**
-
-1. **📱 Descarga** → [**Módulo Original AnderTools**](https://github.com/Kuaiswap/AnderTools/raw/main/AnderTools-v1.0.zip)
-
-2. **⚙️ Instala** → Magisk Manager → Módulos → Instalar desde almacenamiento
-
-3. **🔄 Reinicia** → Reinicia tu dispositivo y ¡listo!
+1. **Descarga** el archivo ZIP del módulo
+2. **Abre Magisk Manager** → Módulos → Instalar desde almacenamiento
+3. **Selecciona el ZIP** → Reinicia → ¡Listo!
 
 ---
 
-## ⚡ Funciones Principales
+## ⚡ Comandos Principales
 
-### 📋 **Comandos Básicos**
+Una vez instalado, usa estos comandos en terminal:
 
 ```bash
-# Herramienta principal
+# Comando principal
 andertools
 
-# Comandos esenciales
-andertools kill [app]     # Cerrar aplicación específica
+# Comandos específicos
+andertools kill [app]     # Cerrar app específica
 andertools killall        # Cerrar todas las apps
-andertools trim           # Limpiar caché RAM
+andertools trim           # Limpiar cache RAM
 andertools auto           # Activar automatización
-andertools status         # Estado del sistema
+andertools status         # Ver estado del sistema
 ```
 
 ---
 
-## 📋 Requisitos del Sistema
+## 📋 Funciones Principales
+
+| 🔧 Optimización | 📊 Monitoreo | 🤖 Automatización |
+|:---:|:---:|:---:|
+| Limpieza RAM | Estado sistema | Perfiles auto |
+| Gestión procesos | Logs detallados | Reglas custom |
+| Optimización kernel | Estadísticas | Tareas programadas |
+
+---
+
+## 📋 Requisitos
 
 - **Android**: 7.0+ (API 24)
 - **Magisk**: 20.4+
 - **RAM**: 3GB mínimo
-- **Root**: ✅ Requerido
+- **Root**: Obligatorio
 
 ---
 
@@ -78,9 +87,9 @@ andertools status         # Estado del sistema
 
 <div align="center">
 
-### 📺 [**Canal de YouTube - TreAnder**](https://www.youtube.com/@TreAnder)
+### 📺 [Canal YouTube - TreAnder](https://www.youtube.com/@TreAnder)
 
-🎥 **Encuentra tutoriales completos, reviews y soporte en el canal oficial**
+🎥 **Tutoriales completos • Soporte • Reviews**
 
 </div>
 
@@ -88,20 +97,26 @@ andertools status         # Estado del sistema
 
 ## ⚠️ Importante
 
-> **🚨 Este módulo modifica componentes del sistema**
+> **Este módulo modifica el sistema Android**
 > 
-> - Crear **backup completo** antes de instalar
-> - Usar bajo **tu propia responsabilidad** 
-> - Soporte disponible en el **canal de YouTube**
+> - Haz **backup completo** antes de instalar
+> - Uso bajo **tu responsabilidad**
+> - **Soporte**: Canal de YouTube
+
+---
+
+## 🔧 Configuración Avanzada
+
+Archivos de configuración en:
+- `/sdcard/Android/AnderTools/config/`
+- `/data/adb/modules/andertools/`
 
 ---
 
 <div align="center">
 
-### 🎯 **¿Listo para optimizar tu Android?**
+## [🚀 DESCARGAR ANDERTOOLS](https://github.com/Kuaiswap/AnderTools/raw/main/AnderTools-v1.0.zip)
 
-[![Descarga Ahora](https://img.shields.io/badge/📥_DESCARGAR_MÓDULO_ORIGINAL-AnderTools_v1.0-success?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Kuaiswap/AnderTools/raw/main/AnderTools-v1.0.zip)
-
-**Desarrollado por TreAnder** | [📺 YouTube](https://www.youtube.com/@TreAnder)
+**Desarrollado por TreAnder** | [📺 YouTube](https://www.youtube.com/@TreAnder) | [⭐ GitHub](https://github.com/Kuaiswap/AnderTools)
 
 </div>
