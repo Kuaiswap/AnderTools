@@ -1,0 +1,1156 @@
+#!/system/bin/sh
+# AnderTools - Enhanced Risk Module with Automation
+# Based on Risk 2.3-011024 by Zyarexx - Enhanced with automation capabilities
+# 100% Compatible with original Risk functionality + automation features
+
+# MIT License
+# 
+# Copyright (c) 2024 rakarmp (Risk original)
+# Copyright (c) 2024 AnderTools (Automation enhancements)
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+# Color definitions
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+PURPLE='\033[0;35m'
+NC='\033[0m'
+
+# Compatibility paths - Support both Risk and AnderTools
+if [ -d "/sdcard/Android/AnderTools" ]; then
+    # AnderTools paths (primary)
+    EXCLUDED_APPS_FILE="/sdcard/Android/AnderTools/config/excluded_apps.txt"
+    LOG_DIR="/sdcard/Android/AnderTools/logs"
+    CONFIG_DIR="/sdcard/Android/AnderTools/config"
+    MODPATH="/data/adb/modules/andertools"
+elif [ -d "/sdcard/Android/Risk" ]; then
+    # Risk compatibility paths
+    EXCLUDED_APPS_FILE="/sdcard/Android/Risk/excluded_apps.txt"
+    LOG_DIR="/sdcard/Android/Risk"
+    CONFIG_DIR="/sdcard/Android/Risk"
+    MODPATH="/data/adb/modules/riskr"
+else
+    # Default to AnderTools paths and create if needed
+    EXCLUDED_APPS_FILE="/sdcard/Android/AnderTools/config/excluded_apps.txt"
+    LOG_DIR="/sdcard/Android/AnderTools/logs"
+    CONFIG_DIR="/sdcard/Android/AnderTools/config"
+    MODPATH="/data/adb/modules/andertools"
+    mkdir -p "$CONFIG_DIR" "$LOG_DIR"
+fi
+
+# Core system variables
+DEVICE_RAM=$(grep "MemTotal" /proc/meminfo | awk '{print $2}')
+DEVICE_CPU=$(grep "processor" /proc/cpuinfo | wc -l)
+KERNEL=$(uname -a)
+ANDROID=$(getprop ro.build.version.release)
+VER=$(grep "set" "$MODPATH/module.prop" | cut -d'=' -f2 2>/dev/null || echo "1.0")
+
+# LMKD Configuration variables
+LMKD_LOW=1001
+LMKD_MEDIUM=800
+LMKD_CRITICAL=0
+LMKD_CRITICAL_UPGRADE=false
+LMKD_UPGRADE_PRESSURE=100
+LMKD_DOWNGRADE_PRESSURE=100
+LMKD_KILL_HEAVIEST_TASK=true
+
+# AnderTools automation variables
+AUTOMATION_ENABLED=false
+AUTOMATION_CONFIG="$CONFIG_DIR/automation_rules.json"
+USER_PREFERENCES="$CONFIG_DIR/user_settings.json"
+AUTOMATION_LOG="$LOG_DIR/automation.log"
+
+# Enhanced logging function (AnderTools feature)
+log_action() {
+    local level=$1
+    local message=$2
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    
+    # Log to automation log if automation is enabled
+    if [ "$AUTOMATION_ENABLED" = true ] && [ -n "$AUTOMATION_LOG" ]; then
+        echo "[$timestamp] [ANDERTOOLS] [$level] $message" >> "$AUTOMATION_LOG"
+    fi
+    
+    # Also log to Risk log for compatibility
+    echo "$(date '+%Y-%m-%d %H:%M:%S') >>> $message" >> "$LOG_DIR/risk.log" 2>/dev/null
+    
+    # Display with colors
+    case $level in
+        "ERROR") echo -e "${RED}[$level] $message${NC}" ;;
+        "SUCCESS") echo -e "${GREEN}[$level] $message${NC}" ;;
+        "INFO") echo -e "${BLUE}[$level] $message${NC}" ;;
+        "WARN") echo -e "${YELLOW}[$level] $message${NC}" ;;
+        *) echo "[$level] $message" ;;
+    esac
+}
+
+# Original Risk function: Check system support
+check_support() {
+    # Copy Shizuku files for compatibility (original Risk behavior)
+    if [ -f "$MODPATH/system/bin/rish" ]; then
+        cp "$MODPATH/system/bin/rish" /data/data/com.termux/files/usr/bin/ 2>/dev/null
+    fi
+    if [ -f "$MODPATH/system/bin/rish_shizuku.dex" ]; then
+        cp "$MODPATH/system/bin/rish_shizuku.dex" /data/data/com.termux/files/usr/bin/ 2>/dev/null
+    fi
+    
+    # Check package manager support
+    if ! pm list packages > /dev/null 2>&1; then
+        echo ""
+        echo -e "${RED}ROM Not Support, Please Type${NC} ${YELLOW}'rish'${NC} ${RED}First In Your Termux${NC}"
+        echo -e "${RED} If You Not Have Shizuku, Please Download In Playstore${NC}"
+        echo -e "${RED}And Start Shizuku For Root${NC}"
+        echo ""
+        exit 0
+    fi
+}
+
+# Original Risk function: Load excluded apps
+load_excluded_apps() {
+    EXCLUDED_APPS=()
+    if [ -f "$EXCLUDED_APPS_FILE" ]; then
+        while IFS= read -r line; do
+            # Skip lines starting with //
+            if ! echo "$line" | grep -q "^//"; then
+                EXCLUDED_APPS+=("$line")
+            fi
+        done < "$EXCLUDED_APPS_FILE"
+    fi
+    
+    # AnderTools enhancement: Log the loading
+    log_action "INFO" "Loaded ${#EXCLUDED_APPS[@]} excluded apps from configuration"
+}
+
+# Load excluded apps on startup
+load_excluded_apps
+
+# Original Risk function: Cache trimming
+trim() {
+    pm trim-caches 999G
+    echo 3 > /proc/sys/vm/drop_caches
+    echo -e "${GREEN}RAM Cache Cleared${NC}"
+    log_action "SUCCESS" "RAM Cache cleared successfully"
+}
+
+# Original Risk function: Check if app is excluded
+is_excluded() {
+    local app=$1
+    for excluded_app in "${EXCLUDED_APPS[@]}"; do
+        if [ "$app" == "$excluded_app" ]; then
+            return 0
+        fi
+    done
+    return 1
+}
+
+# Original Risk function: LMKD configuration
+lmksed() {
+    echo "ro.lmk.low=$LMKD_LOW" > "$MODPATH/system.prop"
+    echo "ro.lmk.medium=$LMKD_MEDIUM" >> "$MODPATH/system.prop"
+    echo "ro.lmk.critical=$LMKD_CRITICAL" >> "$MODPATH/system.prop"
+    echo "ro.lmk.critical_upgrade=$LMKD_CRITICAL_UPGRADE" >> "$MODPATH/system.prop"
+    echo "ro.lmk.upgrade_pressure=$LMKD_UPGRADE_PRESSURE" >> "$MODPATH/system.prop"
+    echo "ro.lmk.downgrade_pressure=$LMKD_DOWNGRADE_PRESSURE" >> "$MODPATH/system.prop"
+    echo "ro.lmk.kill_heaviest_task=$LMKD_KILL_HEAVIEST_TASK" >> "$MODPATH/system.prop"
+    log_action "SUCCESS" "LMKD configuration updated"
+}
+
+# Original Risk function: Social media apps management
+sosmed() {
+    category="$1"
+    clear
+    echo -e "${YELLOW}AnderTools Mode -> Social Media${NC}"
+    trim
+    echo -e "${YELLOW}Stopping category apps -> $category${NC}"
+
+    running_apps=""
+
+    if [ "$category" = "sosmed" ] || [ "$category" = "all" ]; then
+        social_apps="com.facebook.katana com.facebook.lite com.instagram.android com.twitter.android com.twitter.android.lite com.snapchat.android com.whatsapp com.whatsapp.w4b com.tiktok org.telegram.messenger org.telegram.messenger.web org.thunderdog.challegram com.michatapp.im com.ss.android.ugc.trill com.zhiliaoapp.musically com.zhiliaoapp.musically.go com.instagram.lite"
+        installed_social_apps=""
+        for app in $social_apps; do
+            if pm list packages | grep -q "$app"; then
+                installed_social_apps="$installed_social_apps $app"
+            fi
+        done
+        running_apps="$installed_social_apps"
+    fi
+
+    local stopped_count=0
+    for app in $running_apps; do
+        package_name=$(echo "$app" | sed 's/package://')
+        if ! is_excluded "$package_name"; then
+            echo -e "${RED}Stopping $package_name${NC}"
+            am force-stop "$package_name"
+            stopped_count=$((stopped_count + 1))
+        else
+            echo -e "${BLUE}Skipping $package_name (excluded)${NC}"
+        fi
+    done
+    
+    log_action "SUCCESS" "Stopped $stopped_count social media apps"
+    exit 0
+}
+
+# Original Risk function: Stop apps by category  
+stop_apps() {
+    category="$1"
+    clear
+    echo -e "${YELLOW}AnderTools Mode -> $category${NC}"
+    trim
+    echo -e "${YELLOW}Stopping category apps -> $category${NC}"
+
+    running_apps=""
+    case $category in
+        "third_party")
+            running_apps=$(pm list packages -3)
+            ;;
+        "google"|"all")
+            running_apps=$(pm list packages -3)
+            if [ "$category" = "google" ] || [ "$category" = "all" ]; then
+                running_apps="$running_apps $(pm list packages | grep 'com.google')"
+            fi
+            if [ "$category" = "all" ]; then
+                running_apps="$running_apps $(pm list packages -s)"
+            fi
+            ;;
+        "system")
+            running_apps=$(pm list packages -s)
+            ;;
+    esac
+
+    local stopped_count=0
+    for app in $running_apps; do
+        package_name=$(echo "$app" | sed 's/package://')
+        if ! is_excluded "$package_name"; then
+            echo -e "${RED}Stop $package_name${NC}"
+            am force-stop "$package_name"
+            stopped_count=$((stopped_count + 1))
+        else
+            echo -e "${BLUE}Skipping $package_name (excluded)${NC}"
+        fi
+    done
+    
+    log_action "SUCCESS" "Stopped $stopped_count apps in category: $category"
+    exit 0
+}
+
+# Original Risk function: Clean third party apps cache
+clean_third_party_apps() {
+    clear
+    echo -e "${YELLOW}Cleaning third-party apps cache${NC}"
+    echo ""
+    third_party_apps=$(pm list packages -3 | sed 's/package://')
+
+    local cleaned_count=0
+    for app in $third_party_apps; do
+        echo -e "${RED}Cleaning cache for $app${NC}"
+        pm trim-caches 100M
+        cleaned_count=$((cleaned_count + 1))
+    done
+    echo ""
+    log_action "SUCCESS" "Cleaned cache for $cleaned_count third-party apps"
+    exit 0
+}
+
+# Original Risk function: Custom menu for app categories
+custom_menu() {
+    while true; do
+        echo -e "${BLUE}Select the application category you want to stop:${NC}"
+        echo "1. Third party applications"
+        echo "2. Google Apps"
+        echo "3. System applications"
+        echo "4. All applications"
+        echo "5. Social Media"
+        echo "0. Return to main menu"
+        printf "Options: "
+        read -r choice
+
+        case $choice in
+            1)
+                stop_apps "third_party"
+                ;;
+            2)
+                stop_apps "google"
+                ;;
+            3)
+                stop_apps "system"
+                ;;
+            4)
+                stop_apps "all"
+                ;;
+            5)
+                sosmed "sosmed"
+                ;;
+            0)
+                clear
+                return
+                ;;
+            *)
+                echo -e "${RED}Invalid Selection.${NC}"
+                ;;
+        esac
+    done
+}
+
+# Original Risk function: Check LMK support
+check_lmk_support() {
+    if [ ! -d "/sys/module/lowmemorykiller" ]; then
+        echo ""
+        echo -e "${RED}Your Kernel Not Support LMK${NC}"
+        echo ""
+        exit 0
+    fi
+}
+
+# Original Risk function: LMKD menu (Android 10+)
+lmkd_menu() {
+    LMKD_STATUS=$(cat "$MODPATH/system/bin/lmkd_status" 2>/dev/null || echo "No Mode Choice")
+    while true; do
+        echo " "
+        echo -e "${YELLOW}DEVICE RAM -> $DEVICE_RAM KB${NC}"
+        echo -e "${YELLOW}DEVICE CPU -> $DEVICE_CPU cores${NC}"
+        echo -e "${YELLOW}LMKD STATUS -> $LMKD_STATUS${NC}"
+        echo " "
+        echo -e "${BLUE}LMKD Available Mode:${NC}"
+        echo "1. Easy ${YELLOW}(NEED REBOOT)${NC}"
+        echo "   Suitable for daily use"
+        echo "   which is not too intensive."
+        echo "2. Medium ${YELLOW}(NEED REBOOT)${NC}"
+        echo "   Suitable for daily use "
+        echo "   intensive ones, such as playing games or "
+        echo "   use applications that require "
+        echo "   high resource."
+        echo "3. Hard ${YELLOW}(NEED REBOOT)${NC}"
+        echo "   Suitable for very use "
+        echo "   intensive, like playing a very game"
+        echo "   heavy or using applications that "
+        echo "   require very high resources."
+        echo "4. Reset LMKD ${YELLOW}(NEED REBOOT)${NC}"
+        echo "5. Return to main menu"
+        printf "Options: "
+        read -r MODE
+
+        case $MODE in
+            1)
+                clear
+                sleep 1
+                LMKD_LOW=1500
+                echo -e "${RED}LMKD LOW SET TO -->  $LMKD_LOW${NC}"
+                LMKD_MEDIUM=1000
+                echo -e "${RED}LMKD MEDIUM SET TO -->  $LMKD_MEDIUM${NC}"
+                LMKD_CRITICAL=0
+                echo -e "${RED}LMKD CRITICAL SET TO -->  $LMKD_CRITICAL${NC}"
+                LMKD_CRITICAL_UPGRADE=false
+                echo -e "${RED}LMKD CRITICAL UPGRADE SET TO -->  $LMKD_CRITICAL_UPGRADE${NC}"
+                LMKD_UPGRADE_PRESSURE=50
+                echo -e "${RED}LMKD UPGRADE PRESSURE SET TO -->  $LMKD_UPGRADE_PRESSURE${NC}"
+                LMKD_DOWNGRADE_PRESSURE=50
+                echo -e "${RED}LMKD DOWNGRADE PRESSURE SET TO -->  $LMKD_DOWNGRADE_PRESSURE${NC}"
+                LMKD_KILL_HEAVIEST_TASK=false
+                echo -e "${RED}LMKD KILL HEAVIEST TASK SET TO -->  $LMKD_KILL_HEAVIEST_TASK${NC}"
+                lmksed
+                echo "Easy" > "$MODPATH/system/bin/lmkd_status"
+                sleep 1
+                echo " "
+                echo -e "${YELLOW}NEED REBOOT TO APPLY LMKD${NC}"
+                echo " "
+                log_action "SUCCESS" "LMKD set to Easy mode"
+                exit 0
+                ;;
+            2)
+                clear
+                sleep 1
+                LMKD_LOW=1001
+                echo -e "${RED}LMKD LOW SET TO -->  $LMKD_LOW${NC}"
+                LMKD_MEDIUM=800
+                echo -e "${RED}LMKD MEDIUM SET TO -->  $LMKD_MEDIUM${NC}"
+                LMKD_CRITICAL=0
+                echo -e "${RED}LMKD CRITICAL SET TO -->  $LMKD_CRITICAL${NC}"
+                LMKD_CRITICAL_UPGRADE=false
+                echo -e "${RED}LMKD CRITICAL UPGRADE SET TO -->  $LMKD_CRITICAL_UPGRADE${NC}"
+                LMKD_UPGRADE_PRESSURE=100
+                echo -e "${RED}LMKD UPGRADE PRESSURE SET TO -->  $LMKD_UPGRADE_PRESSURE${NC}"
+                LMKD_DOWNGRADE_PRESSURE=100
+                echo -e "${RED}LMKD DOWNGRADE PRESSURE SET TO -->  $LMKD_DOWNGRADE_PRESSURE${NC}"
+                LMKD_KILL_HEAVIEST_TASK=true
+                echo -e "${RED}LMKD KILL HEAVIEST TASK SET TO -->  $LMKD_KILL_HEAVIEST_TASK${NC}"
+                lmksed
+                echo "Medium" > "$MODPATH/system/bin/lmkd_status"
+                sleep 1
+                echo " "
+                echo -e "${YELLOW}NEED REBOOT TO APPLY LMKD${NC}"
+                echo " "
+                log_action "SUCCESS" "LMKD set to Medium mode"
+                exit 0
+                ;;
+            3)
+                clear
+                sleep 1
+                LMKD_LOW=500
+                echo -e "${RED}LMKD LOW SET TO -->  $LMKD_LOW${NC}"
+                LMKD_MEDIUM=300
+                echo -e "${RED}LMKD MEDIUM SET TO -->  $LMKD_MEDIUM${NC}"
+                LMKD_CRITICAL=0
+                echo -e "${RED}LMKD CRITICAL SET TO -->  $LMKD_CRITICAL${NC}"
+                LMKD_CRITICAL_UPGRADE=true
+                echo -e "${RED}LMKD CRITICAL UPGRADE SET TO -->  $LMKD_CRITICAL_UPGRADE${NC}"
+                LMKD_UPGRADE_PRESSURE=200
+                echo -e "${RED}LMKD UPGRADE PRESSURE SET TO -->  $LMKD_UPGRADE_PRESSURE${NC}"
+                LMKD_DOWNGRADE_PRESSURE=200
+                echo -e "${RED}LMKD DOWNGRADE PRESSURE SET TO -->  $LMKD_DOWNGRADE_PRESSURE${NC}"
+                LMKD_KILL_HEAVIEST_TASK=true
+                echo -e "${RED}LMKD KILL HEAVIEST TASK SET TO -->  $LMKD_KILL_HEAVIEST_TASK${NC}"
+                lmksed
+                echo "Hard" > "$MODPATH/system/bin/lmkd_status"
+                sleep 1
+                echo " "
+                echo -e "${YELLOW}NEED REBOOT TO APPLY LMKD${NC}"
+                echo " "
+                log_action "SUCCESS" "LMKD set to Hard mode"
+                exit 0
+                ;;
+            4)
+                clear
+                rm "$MODPATH/system.prop" 2>/dev/null
+                touch "$MODPATH/system.prop"
+                echo "No Mode Choice" > "$MODPATH/system/bin/lmkd_status"
+                sleep 1
+                echo " "
+                echo -e "${YELLOW}NEED REBOOT TO APPLY LMKD${NC}"
+                echo " "
+                log_action "INFO" "LMKD reset to default"
+                exit 0
+                ;;
+            5)
+                clear
+                return
+                ;;
+            *)
+                echo -e "${RED}Invalid selection${NC}"
+                ;;
+        esac
+    done
+}
+
+# Original Risk function: LMK set
+lmkset() {
+    LMK="/sys/module/lowmemorykiller/parameters"
+    chmod +w "$LMK/minfree" > /dev/null 2>&1
+    echo "$Front,$Visible,$Second,$Hidden,$content,$empty" > "$LMK/minfree" > /dev/null 2>&1
+}
+
+# Original Risk function: Set LMK minfree values
+set_lmk_minfree() {
+    RAM=$(grep MemTotal /proc/meminfo | awk '{print $2}')
+    RAM=$((RAM / 1024))  # Convert to MB
+
+    case $1 in
+        easy)
+            clear
+            echo -e "${RED}LMK minfree set to easy mode${NC}"
+            Front=$((($RAM*1/100)*1024/4))
+            Visible=$((($RAM*1/100)*1024/4))
+            Second=$((($RAM*3/100)*1024/4))
+            Hidden=$((($RAM*6/100)*1024/4))
+            content=$((($RAM*7/100)*1024/4))
+            empty=$((($RAM*8/100)*1024/4))
+            lmkset
+            log_action "SUCCESS" "LMK minfree set to easy mode"
+            sleep 1
+            exit 0
+            ;;
+        medium)
+            clear
+            echo -e "${RED}LMK minfree set to medium mode${NC}"
+            Front=$((($RAM*2/100)*1024/4))
+            Visible=$((($RAM*2/100)*1024/4))
+            Second=$((($RAM*4/100)*1024/4))
+            Hidden=$((($RAM*7/100)*1024/4))
+            content=$((($RAM*8/100)*1024/4))
+            empty=$((($RAM*9/100)*1024/4))
+            lmkset
+            log_action "SUCCESS" "LMK minfree set to medium mode"
+            sleep 1
+            exit 0
+            ;;
+        hard)
+            clear
+            echo -e "${RED}LMK minfree set to hard mode${NC}"
+            Front=$((($RAM*3/100)*1024/4))
+            Visible=$((($RAM*3/100)*1024/4))
+            Second=$((($RAM*5/100)*1024/4))
+            Hidden=$((($RAM*8/100)*1024/4))
+            content=$((($RAM*9/100)*1024/4))
+            empty=$((($RAM*10/100)*1024/4))
+            lmkset
+            log_action "SUCCESS" "LMK minfree set to hard mode"
+            sleep 1
+            exit 0
+            ;;
+        *)
+            return
+            ;;
+    esac
+}
+
+# Original Risk function: LMK menu (legacy kernel support)
+lmk_menu() {
+    LMK_STATUS="No Mode Choice"
+    while true; do
+        echo " "
+        echo -e "${YELLOW}DEVICE RAM -> $DEVICE_RAM KB${NC}"
+        echo -e "${YELLOW}DEVICE CPU -> $DEVICE_CPU cores${NC}"
+        echo -e "${YELLOW}LMK STATUS -> $LMK_STATUS${NC}"
+        echo " "
+        echo -e "${BLUE}LMK Available Mode:${NC}"
+        echo "1. Easy"
+        echo "   Suitable for daily use"
+        echo "   which is not too intensive."
+        echo "2. Medium"
+        echo "   Suitable for daily use "
+        echo "   intensive ones, such as playing games or "
+        echo "   use applications that require "
+        echo "   high resource."
+        echo "3. Hard"
+        echo "   Suitable for very use "
+        echo "   intensive, like playing a very game"
+        echo "   heavy or using applications that "
+        echo "   require very high resources."
+        echo "4. Return to main menu"
+        printf "Options: "
+        read -r choice
+        
+        case $choice in
+            1)
+                set_lmk_minfree easy
+                LMK_STATUS="Easy"
+                ;;
+            2)
+                set_lmk_minfree medium
+                LMK_STATUS="Medium"
+                ;;
+            3)
+                set_lmk_minfree hard
+                LMK_STATUS="Hard"
+                ;;
+            4)
+                clear
+                return
+                ;;
+            *)
+                echo -e "${RED}Invalid selection${NC}"
+                ;;
+        esac
+    done
+}
+
+# Original Risk function: Freeze apps
+freeze_apps() {
+    clear
+    echo -e "${YELLOW}Freezing third-party apps${NC}"
+
+    third_party_apps=$(pm list packages -3 | sed 's/package://')
+
+    echo ""
+    index=1
+    declare -A app_map > /dev/null 2>&1
+    for app in $third_party_apps; do
+        app_map[$index]=$app
+        if pm list packages -d | grep -q "$app"; then
+            echo -e "${YELLOW}${index}. $app${NC} - ${RED}(Frozen)${NC}"
+        else
+            echo -e "${YELLOW}${index}. $app${NC} - ${GREEN}(Active)${NC}"
+        fi
+        index=$((index + 1))
+    done
+
+    echo " "
+    echo "Enter the number of the app you want to freeze (or type 'exit' to quit, 'back' to return home)"
+    printf "Type: "
+    read -r app_number
+
+    if [ "$app_number" = "exit" ]; then
+        clear
+        echo "Goodbye"
+        clear
+        exit 0
+    elif [ -n "${app_map[$app_number]}" ]; then
+        clear
+        sleep 1
+        package_name=${app_map[$app_number]}
+        echo -e "${RED}Freezing $package_name${NC}"
+        pm disable-user --user 0 "$package_name" > /dev/null 2>&1
+        log_action "SUCCESS" "Froze app: $package_name"
+        echo ""
+    elif [ "$app_number" = "back" ]; then
+        clear
+        return
+    else
+        echo -e "${RED}Invalid selection${NC}"
+    fi
+
+    exit 0
+}
+
+# Original Risk function: Unfreeze apps
+unfreeze_apps() {
+    clear
+    echo -e "${YELLOW}Unfreezing third-party apps${NC}"
+
+    third_party_apps=$(pm list packages -3 | sed 's/package://')
+
+    echo ""
+    index=1
+    declare -A app_map > /dev/null 2>&1
+    for app in $third_party_apps; do
+        app_map[$index]=$app
+        if pm list packages -d | grep -q "$app"; then
+            echo -e "${YELLOW}${index}. $app${NC} - ${RED}(Frozen)${NC}"
+        else
+            echo -e "${YELLOW}${index}. $app${NC} - ${GREEN}(Active)${NC}"
+        fi
+        index=$((index + 1))
+    done
+
+    echo " "
+    echo "Enter the number of the app you want to unfreeze (or type 'exit' to quit, 'back' to return home):"
+    printf "Type: "
+    read -r app_number
+    
+    if [ "$app_number" = "exit" ]; then
+        echo "Exiting..."
+        exit 0
+    elif [ -n "${app_map[$app_number]}" ]; then
+        clear
+        sleep 1
+        package_name=${app_map[$app_number]}
+        echo -e "${GREEN}Unfreezing $package_name${NC}"
+        pm enable "$package_name" > /dev/null 2>&1
+        log_action "SUCCESS" "Unfroze app: $package_name"
+        echo ""
+    elif [ "$app_number" = "back" ]; then
+        clear
+        return
+    else
+        echo -e "${RED}Invalid selection${NC}"
+    fi
+
+    exit 0
+}
+
+# Original Risk function: Game overlay downscale (Android 12+)
+game_overlay_downscale() {
+    echo ""
+    echo ""
+    printf "\e[101m\e[1;77mNOTE!\e[0m\n"
+    echo ""
+    echo -e "${YELLOW}You can only enter 1 package, if you want another package, enter this menu again${NC}"
+    echo ""
+    echo ""
+    echo -ne "Enter Package Name: "
+    read -r package_name
+    echo "How much Downscale do you want?"
+    echo -ne "Recommendation 1.0 to 0.5: "
+    read -r downscale_factor
+    
+    device_config put game_overlay "$package_name" "mode=2,downscaleFactor=$downscale_factor:mode=3,downscaleFactor=$downscale_factor" > /dev/null 2>&1
+    sleep 1
+    echo "" 
+    echo "Done! More information check ${YELLOW}https://developer.android.com/games/gamemode/gamemode-interventions${NC}"
+    log_action "SUCCESS" "Applied downscale factor $downscale_factor to $package_name"
+    exit 0
+}
+
+# Original Risk function: Check Android version
+check_android_version() {
+    local version=$(getprop ro.build.version.release)
+    local major_version=$(echo "$version" | cut -d. -f1)
+
+    if [ "$major_version" -lt 12 ]; then
+        echo -e "${RED}Your Android Version Not Support (Requires Android 12+)${NC}"
+        echo "Current version: Android $version"
+        sleep 2
+        return 1
+    fi
+    return 0
+}
+
+# Original Risk function: Get current resolution
+get_current_resolution() {
+    wm size | awk '{print $3}'
+}
+
+# Original Risk function: Get physical resolution
+get_physical_resolution() {
+    dumpsys display | grep 'PhysicalDisplayInfo' | awk -F'[{}]' '{print $2}' | awk '{print $1 "x" $3}' | sed 's/,//' | head -n 1
+}
+
+# Original Risk function: Get current density
+get_current_density() {
+    wm density | awk '{print $3}' | head -n 1
+}
+
+# Original Risk function: Set resolution
+set_resolution() {
+    local resolution=$1
+    wm size "$resolution"
+}
+
+# Original Risk function: Set density
+set_density() {
+    local density=$1
+    wm density "$density"
+}
+
+# Original Risk function: Reset resolution
+reset_resolution() {
+    wm size reset
+    wm density reset
+}
+
+# Original Risk function: Recommend resolution
+recommend_resolution() {
+    local current_res=$1
+    local width=$(echo "$current_res" | cut -d'x' -f1)
+    local height=$(echo "$current_res" | cut -d'x' -f2)
+    local new_width=$((width / 2))
+    local new_height=$((height / 2))
+    echo "${new_width}x${new_height}"
+}
+
+# Original Risk function: Recommend density
+recommend_density() {
+    local current_density=$1
+    local new_density=$((current_density / 2))
+    echo "$new_density"
+}
+
+# Original Risk function: Calculate density
+calculate_density() {
+    local physical_res=$1
+    local new_res=$2
+    local current_density=$3
+
+    local physical_width=$(echo "$physical_res" | cut -d'x' -f1)
+    local physical_height=$(echo "$physical_res" | cut -d'x' -f2)
+    local new_width=$(echo "$new_res" | cut -d'x' -f1)
+    local new_height=$(echo "$new_res" | cut -d'x' -f2)
+
+    local width_ratio=$(echo "scale=2; $new_width / $physical_width" | bc 2>/dev/null || echo "0.5")
+    local height_ratio=$(echo "scale=2; $new_height / $physical_height" | bc 2>/dev/null || echo "0.5")
+
+    local avg_ratio=$(echo "scale=2; ($width_ratio + $height_ratio) / 2" | bc 2>/dev/null || echo "0.5")
+    local new_density=$(echo "scale=0; $current_density * $avg_ratio" | bc 2>/dev/null || echo "$((current_density / 2))")
+
+    echo "$new_density"
+}
+
+# Original Risk function: Resolution changer
+resolution_changer() {
+    while true; do
+        clear
+        echo "Screen Resolution Changer"
+        echo "========================="
+        current_res=$(get_current_resolution)
+        physical_res=$(get_physical_resolution)
+        current_density=$(get_current_density)
+        echo "Current Resolution: $current_res"
+        echo "Physical Resolution: $physical_res"
+        echo "Current Density: $current_density"
+        
+        recommended_res=$(recommend_resolution "$physical_res")
+        recommended_density=$(recommend_density "$current_density")
+        echo "Recommended Lower Resolution: $recommended_res"
+        echo "Recommended Lower Density: $recommended_density"
+        
+        echo "1. Set Recommended Resolution and Density"
+        echo "2. Set Custom Resolution and Automatic Density"
+        echo "3. Reset Resolution and Density"
+        echo "4. Exit"
+        echo -n "Choose an option: "
+        read -r choice
+        
+        case $choice in
+            1)
+                set_resolution "$recommended_res"
+                set_density "$recommended_density"
+                echo "Resolution set to $recommended_res"
+                echo "Density set to $recommended_density"
+                log_action "SUCCESS" "Resolution set to $recommended_res, density to $recommended_density"
+                ;;
+            2)
+                echo -n "Enter custom resolution (e.g., 1280x720): "
+                read -r custom_res
+                custom_density=$(calculate_density "$physical_res" "$custom_res" "$current_density")
+                set_resolution "$custom_res"
+                set_density "$custom_density"
+                echo "Resolution set to $custom_res"
+                echo "Density set to $custom_density"
+                log_action "SUCCESS" "Custom resolution set to $custom_res, density to $custom_density"
+                ;;
+            3)
+                reset_resolution
+                echo "Resolution and density reset to default"
+                log_action "SUCCESS" "Resolution and density reset to default"
+                ;;
+            4)
+                exit 0
+                ;;
+            *)
+                echo "Invalid option, please try again."
+                ;;
+        esac
+        echo -n "Press any key to continue..."
+        read -n 1
+    done
+}
+
+# Original Risk function: Monolith compile
+monolith_compile() {
+    MODE="speed-profile"
+    MLOG="$LOG_DIR/risk.log"
+    package_list=$(pm list packages | sed 's/package://')
+
+    compile_command="pm compile -a"
+    [ "$1" = "-f" ] && compile_command+=" -f"
+
+    echo "$(date '+%Y-%m-%d %H:%M:%S') >>> Compiling packages" >> "$MLOG"
+    log_action "INFO" "Starting monolith compilation"
+    $compile_command -m "$MODE"
+
+    echo "$(date '+%Y-%m-%d %H:%M:%S') >>> Compiling layouts" >> "$MLOG"
+    $compile_command --compile-layouts
+
+    echo "$(date '+%Y-%m-%d %H:%M:%S') >>> Compiling secondary dex files" >> "$MLOG"
+    $compile_command --secondary-dex -m "$MODE" 
+
+    echo "$(date '+%Y-%m-%d %H:%M:%S') >>> Reconciling secondary dex files" >> "$MLOG"
+    for package in $package_list; do
+        clear
+        echo "Reconciling: $package"
+        pm reconcile-secondary-dex-files "$package" 2>/dev/null
+    done
+
+    echo "$(date '+%Y-%m-%d %H:%M:%S') >>> Done" >> "$MLOG"
+    log_action "SUCCESS" "Monolith compilation completed"
+    exit 0
+}
+
+# AnderTools Enhancement: Check if automation is enabled
+check_automation_enabled() {
+    if [ -f "$USER_PREFERENCES" ]; then
+        AUTOMATION_ENABLED=$(grep '"automation_enabled"' "$USER_PREFERENCES" | grep -o 'true\|false' 2>/dev/null || echo "false")
+    fi
+    
+    if [ "$AUTOMATION_ENABLED" = "true" ]; then
+        log_action "INFO" "Automation is enabled"
+        return 0
+    else
+        return 1
+    fi
+}
+
+# AnderTools Enhancement: Automation menu
+automation_menu() {
+    while true; do
+        clear
+        echo -e "${PURPLE}═══════════════════════════════════════${NC}"
+        echo -e "${PURPLE}           AnderTools Automation        ${NC}"
+        echo -e "${PURPLE}═══════════════════════════════════════${NC}"
+        echo ""
+        
+        if check_automation_enabled; then
+            echo -e "${GREEN}Status: Automation ENABLED${NC}"
+        else
+            echo -e "${RED}Status: Automation DISABLED${NC}"
+        fi
+        
+        echo ""
+        echo "1. Enable/Disable Automation"
+        echo "2. Configure Auto-cleanup Rules"
+        echo "3. View Automation Logs"
+        echo "4. Test Automation (Manual Trigger)"
+        echo "5. Automation Status & Statistics"
+        echo "0. Return to Main Menu"
+        echo ""
+        printf "Select option: "
+        read -r choice
+        
+        case $choice in
+            1)
+                toggle_automation
+                ;;
+            2)
+                configure_automation_rules
+                ;;
+            3)
+                view_automation_logs
+                ;;
+            4)
+                test_automation
+                ;;
+            5)
+                show_automation_statistics
+                ;;
+            0)
+                return
+                ;;
+            *)
+                echo -e "${RED}Invalid option${NC}"
+                sleep 1
+                ;;
+        esac
+    done
+}
+
+# AnderTools Enhancement: Toggle automation
+toggle_automation() {
+    if check_automation_enabled; then
+        # Disable automation
+        echo '{"automation_enabled": false}' > "$USER_PREFERENCES"
+        echo -e "${YELLOW}Automation DISABLED${NC}"
+        log_action "INFO" "Automation disabled by user"
+    else
+        # Enable automation
+        echo '{"automation_enabled": true}' > "$USER_PREFERENCES"
+        echo -e "${GREEN}Automation ENABLED${NC}"
+        log_action "INFO" "Automation enabled by user"
+    fi
+    sleep 2
+}
+
+# AnderTools Enhancement: Configure automation rules
+configure_automation_rules() {
+    echo -e "${BLUE}Automation Rules Configuration${NC}"
+    echo ""
+    echo "1. Auto-cleanup every 30 minutes"
+    echo "2. Gaming mode detection"
+    echo "3. Battery-based optimization"
+    echo "4. Custom schedule"
+    echo "0. Back"
+    echo ""
+    printf "Select configuration: "
+    read -r config_choice
+    
+    case $config_choice in
+        1)
+            echo '{"auto_cleanup_interval": 30, "gaming_detection": false, "battery_optimization": false}' > "$AUTOMATION_CONFIG"
+            echo -e "${GREEN}Auto-cleanup every 30 minutes configured${NC}"
+            ;;
+        2)
+            echo '{"auto_cleanup_interval": 0, "gaming_detection": true, "battery_optimization": false}' > "$AUTOMATION_CONFIG"
+            echo -e "${GREEN}Gaming mode detection configured${NC}"
+            ;;
+        3)
+            echo '{"auto_cleanup_interval": 0, "gaming_detection": false, "battery_optimization": true}' > "$AUTOMATION_CONFIG"
+            echo -e "${GREEN}Battery-based optimization configured${NC}"
+            ;;
+        4)
+            echo "Custom schedule configuration (feature coming soon)"
+            ;;
+    esac
+    sleep 2
+}
+
+# AnderTools Enhancement: View automation logs
+view_automation_logs() {
+    clear
+    echo -e "${BLUE}Recent Automation Activity${NC}"
+    echo "=================================="
+    
+    if [ -f "$AUTOMATION_LOG" ]; then
+        tail -20 "$AUTOMATION_LOG"
+    else
+        echo "No automation logs found."
+    fi
+    
+    echo ""
+    echo "Press any key to continue..."
+    read -n 1
+}
+
+# AnderTools Enhancement: Test automation
+test_automation() {
+    echo -e "${YELLOW}Testing automation...${NC}"
+    log_action "INFO" "Manual automation test triggered"
+    
+    # Perform a quick cleanup
+    trim
+    echo -e "${GREEN}Automation test completed${NC}"
+    sleep 2
+}
+
+# AnderTools Enhancement: Show automation statistics
+show_automation_statistics() {
+    clear
+    echo -e "${BLUE}Automation Statistics${NC}"
+    echo "====================="
+    
+    if [ -f "$AUTOMATION_LOG" ]; then
+        local total_actions=$(grep -c "AnderTools" "$AUTOMATION_LOG" 2>/dev/null || echo "0")
+        local last_action=$(tail -1 "$AUTOMATION_LOG" 2>/dev/null || echo "No recent activity")
+        
+        echo "Total automated actions: $total_actions"
+        echo "Last action: $last_action"
+    else
+        echo "No statistics available"
+    fi
+    
+    echo ""
+    echo "Press any key to continue..."
+    read -n 1
+}
+
+# Original Risk function: Main menu with AnderTools enhancements
+main_menu() {
+    while true; do
+        clear
+        echo " "
+        echo -e "${BLUE}╔═══╗───╔╗${NC}    ${PURPLE}╔═══╗────────╔════╗${NC}"
+        echo -e "${BLUE}║╔═╗║───║║${NC}    ${PURPLE}║╔═╗║────────╚══╗═║${NC}"
+        echo -e "${BLUE}║╚═╝╠╦══╣║╔╗${NC}  ${PURPLE}║║─║╠═╗╔══╦══╗──║╔╬══╦══╦══╦══╦═╗${NC}"
+        echo -e "${BLUE}║╔╗╔╬╣══╣╚╝╝${NC}  ${PURPLE}║╚═╝║╔╗╣╔╗║║═╣──║║║╔╗║╔╗║║═╣══╣╔╝${NC}"
+        echo -e "${BLUE}║║║╚╣╠══║╔╗╗${NC}  ${PURPLE}║╔═╗║║║║╚╝║║═╣──║╚╣╚╝║╚╝║║═╬══║║${NC}"
+        echo -e "${BLUE}╚╝╚═╩╩══╩╝╚╝${NC}  ${PURPLE}╚╝─╚╩╝╚╩══╩══╝──╚═╩══╩══╩══╩══╩╝${NC}"
+        echo " "
+        echo -e "${BLUE}ANDERTOOLS VERSION -> ${VER}${NC} ${PURPLE}(Enhanced Risk)${NC}"
+        echo " "
+        echo -e "${BLUE}ANDROID VERSION -> ${ANDROID}${NC}"
+        echo -e "${BLUE}KERNEL -> ${KERNEL}${NC}"
+        
+        # Show automation status in main menu
+        if check_automation_enabled; then
+            echo -e "${GREEN}AUTOMATION -> ENABLED${NC}"
+        else
+            echo -e "${YELLOW}AUTOMATION -> DISABLED${NC}"
+        fi
+        echo " "
+        
+        echo -e "${BLUE}Select mode:${NC}"
+        echo "1. Safe ${YELLOW}(stop third party apps only)${NC}"
+        echo "2. Aggressive ${YELLOW}(stop third party apps and Google)${NC}"
+        echo "3. Custom ${YELLOW}(select the application category you want to stop)${NC}"
+        echo "4. LMKD Adjustment A10+"
+        echo "5. LMK minfree Adjustment ${YELLOW}(If Your Kernel Support)${NC}"
+        echo "6. Clean Cache ${YELLOW}(Only Third Party Apps)${NC}"
+        echo "7. Freeze App ${YELLOW}(Third Party Apps)${NC}"
+        echo "8. Unfreeze App"
+        echo "9. Downscale ${YELLOW}(Work On Android 12+)${NC}"
+        echo "10. Resolution Changer"
+        echo "11. Monolith Compile ${YELLOW}(Compile Apps With Reconcile)${NC}"
+        echo -e "${PURPLE}12. Automation Settings ${YELLOW}(AnderTools Enhancement)${NC}"
+        echo "0. Exit"
+        echo "99. Force Exit Termux"
+        printf "Options: "
+        read -r choice
+
+        case $choice in
+            1)
+                check_support
+                mode="Safe"
+                stop_apps "third_party"
+                ;;
+            2)
+                check_support
+                mode="Aggressive"
+                stop_apps "google"
+                ;;
+            3)
+                clear
+                check_support
+                custom_menu
+                ;;
+            4)
+                clear
+                lmkd_menu
+                ;;
+            5)
+                clear
+                check_lmk_support
+                lmk_menu
+                ;;
+            6)
+                clear
+                check_support
+                clean_third_party_apps
+                ;;
+            7)
+                clear
+                check_support
+                freeze_apps
+                ;;
+            8)
+                clear
+                check_support
+                unfreeze_apps
+                ;;
+            9)
+                clear
+                check_support
+                if check_android_version; then
+                    game_overlay_downscale
+                fi
+                ;;
+            10)
+                clear
+                check_support
+                resolution_changer
+                ;;
+            11)
+                clear
+                check_support
+                monolith_compile
+                ;;
+            12)
+                automation_menu
+                ;;
+            0)
+                clear
+                echo "Goodbye from AnderTools!"
+                sleep 0.5
+                clear
+                exit 0
+                ;;
+            99)
+                clear
+                echo "Force closing Termux..."
+                sleep 0.5
+                am force-stop com.termux
+                ;;
+            *)
+                clear
+                echo -e "${RED}Invalid selection${NC}"
+                sleep 1
+                ;;
+        esac
+    done
+}
+
+# Initialize automation if enabled
+if check_automation_enabled; then
+    log_action "INFO" "AnderTools started with automation enabled"
+fi
+
+# Start main menu
+clear
+main_menu
