@@ -1,0 +1,10 @@
+#!/system/bin/sh
+# Risk Compatibility Script for AnderTools
+# This script provides 100% backward compatibility with original Risk commands
+# while leveraging the enhanced AnderTools functionality
+
+# Set compatibility mode
+export RISK_COMPATIBILITY_MODE=true
+
+# Execute AnderTools with Risk compatibility
+exec /system/bin/andertools "$@"
