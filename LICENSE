@@ -1,0 +1,65 @@
+MIT License
+
+Copyright (c) 2024 AnderTools Team
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## Acknowledgments
+
+This project is based on the original "Risk" module created by Zyarexx (@Telegram).
+We extend our gratitude to Zyarexx for creating the excellent foundation that made
+AnderTools possible.
+
+Original Risk Module:
+- Author: Zyarexx (@Telegram)
+- License: MIT License
+- Repository: https://github.com/rakarmp/Risk
+
+## Third-Party Components
+
+### Magisk Framework
+- Copyright (c) 2016-2024 topjohnwu
+- Licensed under GPLv3+
+- Used for module framework and installation system
+
+### Android System APIs
+- Copyright (c) Google Inc. and The Android Open Source Project
+- Licensed under Apache License 2.0
+- Used for package management and system control
+
+## Attribution Requirements
+
+When distributing or modifying this software, you must:
+
+1. Include this license notice
+2. Credit the original Risk module by Zyarexx
+3. Credit the AnderTools Team for enhancements
+4. Maintain the open source nature of the project
+
+## Disclaimer
+
+This software is provided "as is" without warranty of any kind. The authors
+are not responsible for any damage to devices or data that may result from
+the use of this software. Users assume all risks associated with the use
+of this tool.
+
+Use responsibly and always maintain backups of important data before making
+system modifications.
