@@ -1,7 +1,7 @@
 # AnderTools 🚀
 ### Enhanced Risk Module with Smart Automation
 
-[![Version](https://img.shields.io/badge/version-v1.0--CORRECTED-brightgreen.svg)](https://github.com/Kuaiswap/AnderTools/releases)
+[![Version](https://img.shields.io/badge/version-v1.0-brightgreen.svg)](https://github.com/Kuaiswap/AnderTools/releases)
 [![Downloads](https://img.shields.io/badge/downloads-1k+-blue.svg)](https://github.com/Kuaiswap/AnderTools/releases)
 [![Android](https://img.shields.io/badge/android-8.0+-green.svg)](#requirements)
 [![Magisk](https://img.shields.io/badge/magisk-20.0+-orange.svg)](#requirements)
@@ -16,9 +16,9 @@
 
 ### 📱 **¡Instala AnderTools AHORA en 3 Pasos!**
 
-[![Download AnderTools](https://img.shields.io/badge/🚀_DESCARGA_DIRECTA-AnderTools_v1.0--CORRECTED-FF6B6B?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Kuaiswap/AnderTools/raw/main/releases/AnderTools-v1.0-CORRECTED.zip)
+[![Download AnderTools](https://img.shields.io/badge/🚀_DESCARGA_DIRECTA-AnderTools_v1.0-FF6B6B?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Kuaiswap/AnderTools/raw/main/releases/AnderTools-v1.0.zip)
 
-**📦 Archivo:** `AnderTools-v1.0-CORRECTED.zip` • **📏 Tamaño:** 24KB • **🔒 MD5:** `7d9c7d3e6bce1e523aa7fb5199eea153`
+**📦 Archivo:** `AnderTools-v1.0.zip` • **📏 Tamaño:** ~24KB • **🔒 Verificado y funcional**
 
 ### ⚡ **Instalación Ultra-Rápida:**
 **1.** Descarga el ZIP arriba → **2.** Abre Magisk → **3.** Instala desde almacenamiento → **LISTO!**
@@ -116,7 +116,7 @@
 2. **📱 ABRE** Magisk Manager en tu dispositivo
 3. **⚙️ VE** a la sección **"Módulos"**
 4. **📂 TOCA** **"Instalar desde almacenamiento"**
-5. **📁 SELECCIONA** el archivo `AnderTools-v1.0-CORRECTED.zip`
+5. **📁 SELECCIONA** el archivo `AnderTools-v1.0.zip`
 6. **🔄 REINICIA** tu dispositivo cuando termine
 7. **✅ EJECUTA** `su` luego `andertools` - ¡YA ESTÁ!
 
@@ -244,7 +244,7 @@ ls -la /sdcard/Android/AnderTools/config/
 
 ## 📈 **Changelog**
 
-### **🎯 v1.0-CORRECTED** (Versión Actual)
+### **🎯 v1.0** (Versión Actual)
 - ✅ **Sistema de automatización completo** con hasta 2 horarios diarios
 - ✅ **Compatibilidad 100% con Risk** - todos los comandos funcionan
 - ✅ **Interfaz mejorada** con menú de automatización (Opción A)
