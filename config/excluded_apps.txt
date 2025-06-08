@@ -1,0 +1,17 @@
+// AnderTools - Aplicaciones Excluidas
+// Líneas que comienzan con // son comentarios
+// Una aplicación por línea
+
+// Aplicaciones del sistema críticas
+com.android.systemui
+com.android.settings
+android
+com.android.phone
+
+// Servicios de Google críticos  
+com.google.android.gms
+com.google.android.gsf
+
+// Magisk y herramientas root
+com.topjohnwu.magisk
+me.weishu.kernelsu

@@ -1,0 +1,8 @@
+id=andertools
+name=AnderTools
+version=v1.0
+versionCode=1
+author=TreAnder
+description=Módulo Magisk para optimización de Android - Gestión de memoria RAM y automatización del sistema
+
+updateJson=https://raw.githubusercontent.com/Kuaiswap/AnderTools/main/update.json
